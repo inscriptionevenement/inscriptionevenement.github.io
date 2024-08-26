@@ -21,25 +21,25 @@
             <li>
                 <h2>FOOTBALL SENIOR</h2>
                 <p>Si vous souhaitez participer au football senior, cliquez sur l'icône FOOTBALL SENIOR pour vous enregistrer. Cette section est réservée aux personnes de plus de 17 ans.</p>
-                <a href="senior.html">FOOTBALL SENIOR</a>
+                <a href="senior.php">FOOTBALL SENIOR</a>
             </li>
             
             <li>
                 <h2>JEUX DE PÉTANQUE</h2>
                 <p>L'inscription pour les jeux de pétanque se fait via l'icône ci-dessous.</p>
-                <a href="petanque.html">JEUX DE PÉTANQUE</a>
+                <a href="petanque.php">JEUX DE PÉTANQUE</a>
             </li>
             
             <li>
                 <h2>JEUX DE DAMES</h2>
                 <p>De même pour les jeux de dames.</p>
-                <a href="dame.html">JEUX DE DAMES</a>
+                <a href="dame.php">JEUX DE DAMES</a>
             </li>
             
             <li>
                 <h2>FOOTBALL MINIME</h2>
                 <p>Pour inscrire votre équipe minime (moins de 45 kg), utilisez la section FOOTBALL MINIME en bas.</p>
-                <a href="mınıme.html">FOOTBALL MINIME</a>
+                <a href="mınıme.php">FOOTBALL MINIME</a>
             </li>
         </ul>
 

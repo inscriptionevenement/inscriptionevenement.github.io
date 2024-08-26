@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSCRIPTION AUX ÉVÉNEMENTS DE LA JOURNÉE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!--insertion de l'image --> 
+        <img scr="images/robert-icon.jpg" alt ="robert-icon" class ="robert-icon"> 
+        <?php
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "sport_db";
+            
+            echo "<h1>INSCRIPTION POUR LA JOURNÉE SPORTIVE DU 13 AU 15 SEPTEMBRE</h1>";
+            echo '<form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '" method="post">';
+            // Vérifie si le formulaire a été soumis
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Récupérer les données du formulaire
+                $team_name = $_POST['team_name'];
+                $coach_name = $_POST['coach_name'];
+                $players_list = $_POST['players_list'];
+                $phone_number = $_POST['phone_number'];
+
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                // Vérifier la connexion
+                if ($conn->connect_error) {
+                    die("La connexion a échoué : " . $conn->connect_error);
+                } else {
+                    // Requête SQL pour sélectionner les données
+                    $sql = "INSERT INTO senior (team_name, coach_name, players_list, phone_number) VALUES (?, ?, ?, ?)";
+
+                    // Préparer la requête SQL pour insérer les données
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("ssss", $team_name, $coach_name, $players_list, $phone_number);
+
+                    // Exécuter la requête et vérifier si l'insertion a réussi
+                    if ($stmt->execute()) {
+                        echo "Données enregistrées avec succès";
+                    } else {
+                        echo "Erreur : " . $stmt->error;
+                    }
+                    // Fermer la connexion à la base de données
+                    $stmt->close();
+                    $conn->close();
+                }
+
+                // Afficher les données récupérées
+                echo "<h2>Détails de l'équipe :</h2>";
+                echo "Nom de l'équipe : " . htmlspecialchars($team_name) . "<br>";
+                echo "Nom de l'entraîneur : " . htmlspecialchars($coach_name) . "<br>";
+                echo "Liste des joueurs : " . nl2br(htmlspecialchars($players_list)) . "<br>";
+                echo "Numéro de téléphone : " . htmlspecialchars($phone_number) . "<br>";
+                } else {
+                    // Afficher le formulaire HTML
+                    echo '<label for="team_name">Nom de l\'équipe :</label><br>
+                        <input type="text" id="team_name" name="team_name" required><br><br>
+
+                        <label for="coach_name">Nom de l\'entraîneur :</label><br>
+                        <input type="text" id="coach_name" name="coach_name" required><br><br>
+
+                        <label for="players_list">Liste des joueurs (séparés par des virgules) :</label><br>
+                        <textarea id="players_list" name="players_list" rows="4" cols="50" required></textarea><br>
+
+                        <label for="phone_number">Numéro de téléphone :</label><br>
+                        <input type="text" id="phone_number" name="phone_number" required><br><br>
+                        
+                        <input type="submit" value="S\'inscrire">';                     
+                }
+            echo '</form>';
+        ?>
+    </div>
