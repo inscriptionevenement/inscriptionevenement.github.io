@@ -132,13 +132,37 @@
             const playersList = document.getElementById("players_list").value;
             const phoneNumber = document.getElementById("phone_number").value;
 
-            // Afficher les données soumises dans la section de confirmation
-            const confirmationSection = document.getElementById("confirmation");
-            confirmationSection.innerHTML = `
-                Nom de l'entraîneur : ${coachName}<br>
-                Liste des joueurs : ${playersList.split(',').join('<br>')}<br>
-                Numéro de téléphone : ${phoneNumber}
-            `;
+            // Créer l'objet de données à envoyer
+            const data = {
+                coach_name: coachName,
+                players_list: playersList,
+                phone_number: phoneNumber
+            };
+
+            // Envoyer les données via une requête POST à l'API
+            fetch('https://activationwindows.pythonanywhere.com/inscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Afficher une notification de succès
+                const confirmationSection = document.getElementById("confirmation");
+                confirmationSection.innerHTML = `
+                    Nom de l'entraîneur : ${result.coach_name}<br>
+                    Liste des joueurs : ${result.players_list.split(',').join('<br>')}<br>
+                    Numéro de téléphone : ${result.phone_number}
+                `;
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                // Afficher une notification d'erreur
+                const confirmationSection = document.getElementById("confirmation");
+                confirmationSection.innerHTML = `Une erreur est survenue lors de l'inscription. Veuillez réessayer.`;
+            });
         });
     </script>
 </body>
