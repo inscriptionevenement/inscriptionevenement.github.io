@@ -94,7 +94,26 @@
             font-size: 16px;
             color: #495057;
         }
+
+        /* Spinner de chargement */
+        .spinner {
+            display: none;
+            margin: 20px auto;
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
+    <!-- Inclure SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -118,6 +137,9 @@
             <input type="submit" value="S'inscrire">
         </form>
 
+        <!-- Spinner de chargement -->
+        <div class="spinner" id="loading-spinner"></div>
+
         <!-- Section de confirmation -->
         <h2>Détails de l'équipe :</h2>
         <p id="confirmation"></p>
@@ -126,6 +148,9 @@
     <script>
         document.getElementById("registration-form").addEventListener("submit", function(event) {
             event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+
+            // Afficher la roue de chargement
+            document.getElementById("loading-spinner").style.display = "block";
 
             // Récupérer les valeurs des champs
             const coachName = document.getElementById("coach_name").value;
@@ -149,7 +174,17 @@
             })
             .then(response => response.json())
             .then(result => {
+                // Masquer la roue de chargement
+                document.getElementById("loading-spinner").style.display = "none";
+
                 // Afficher une notification de succès
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inscription réussie!',
+                    text: 'Votre équipe a été inscrite avec succès.'
+                });
+
+                // Afficher les détails dans la section de confirmation
                 const confirmationSection = document.getElementById("confirmation");
                 confirmationSection.innerHTML = `
                     Nom de l'entraîneur : ${result.coach_name}<br>
@@ -158,10 +193,17 @@
                 `;
             })
             .catch(error => {
-                console.error('Erreur:', error);
+                // Masquer la roue de chargement
+                document.getElementById("loading-spinner").style.display = "none";
+
                 // Afficher une notification d'erreur
-                const confirmationSection = document.getElementById("confirmation");
-                confirmationSection.innerHTML = `Une erreur est survenue lors de l'inscription. Veuillez réessayer.`;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur!',
+                    text: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.'
+                });
+
+                console.error('Erreur:', error);
             });
         });
     </script>
