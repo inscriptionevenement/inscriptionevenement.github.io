@@ -162,7 +162,7 @@
                 coach_name: coachName,
                 players_list: playersList,
                 phone_number: phoneNumber,
-                type : ' Football '
+                type : ' Football Senior '
             };
 
             // Envoyer les données via une requête POST à l'API
@@ -186,11 +186,10 @@
                 });
 
                 // Afficher les détails dans la section de confirmation
-                const confirmationSection = document.getElementById("confirmation");
-                confirmationSection.innerHTML = `
-                    Nom de l'entraîneur : ${result.coach_name}<br>
-                    Liste des joueurs : ${result.players_list.split(',').join('<br>')}<br>
-                    Numéro de téléphone : ${result.phone_number}
+                document.getElementById("confirmation").innerHTML = `
+                    <strong>Nom de l'entraîneur:</strong> ${coachName}<br>
+                    <strong>Liste des joueurs:</strong> ${playersList}<br>
+                    <strong>Numéro de téléphone:</strong> ${phoneNumber}
                 `;
             })
             .catch(error => {
@@ -201,7 +200,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Erreur!',
-                    text: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer. Error détail : ' + error
+                    text: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer. Détail de l\'erreur: ' + error
                 });
 
                 console.error('Erreur:', error);
