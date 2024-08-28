@@ -157,13 +157,15 @@
             const coachName = document.getElementById("coach_name").value;
             const playersList = document.getElementById("players_list").value;
             const phoneNumber = document.getElementById("phone_number").value;
-
+            const equipe = document.getElementById("equipe");
             // Créer l'objet de données à envoyer
             const data = {
                 coach_name: coachName,
                 players_list: playersList,
                 phone_number: phoneNumber,
-                type : 'Dame'
+                type : 'Dame', 
+                equipe : equipe 
+                
             };
 
             // Envoyer les données via une requête POST à l'API
