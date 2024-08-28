@@ -123,11 +123,13 @@
         <!-- Titre principal -->
         <h1>INSCRIPTION POUR LA JOURNÉE SPORTIVE DU 13 AU 15 SEPTEMBRE</h1>
 
+   
         <!-- Formulaire d'inscription -->
         <form id="registration-form">
             <label for="coach_name">Nom de l'entraîneur :</label><br>
             <input type="text" id="coach_name" name="coach_name" required><br><br>
-
+            <label for="equipe">Nom de l'équipe :</label><br>
+            <input type="text" id="equipe" name="equipe" required><br><br>
             <label for="players_list">Liste des joueurs (séparés par des virgules) :</label><br>
             <textarea id="players_list" name="players_list" rows="4" cols="50" required></textarea><br>
 
@@ -136,7 +138,6 @@
 
             <input type="submit" value="S'inscrire">
         </form>
-
         <!-- Spinner de chargement -->
         <div class="spinner" id="loading-spinner"></div>
 
@@ -156,13 +157,15 @@
             const coachName = document.getElementById("coach_name").value;
             const playersList = document.getElementById("players_list").value;
             const phoneNumber = document.getElementById("phone_number").value;
+            const equipe = document.getElementById("equipe").value;
 
             // Créer l'objet de données à envoyer
             const data = {
                 coach_name: coachName,
                 players_list: playersList,
                 phone_number: phoneNumber,
-                type : ' Football Senior '
+                type : ' Football Senior ',
+                equipe : equipe
             };
 
             // Envoyer les données via une requête POST à l'API

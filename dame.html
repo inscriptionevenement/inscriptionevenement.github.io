@@ -127,7 +127,7 @@
         <form id="registration-form">
             <label for="coach_name">Nom de l'entraîneur :</label><br>
             <input type="text" id="coach_name" name="coach_name" required><br><br>
-<label for="coach_name">Nom de l'équipe :</label><br>
+            <label for="equipe">Nom de l'équipe :</label><br>
             <input type="text" id="equipe" name="equipe" required><br><br>
             <label for="players_list">Liste des joueurs (séparés par des virgules) :</label><br>
             <textarea id="players_list" name="players_list" rows="4" cols="50" required></textarea><br>
@@ -157,7 +157,7 @@
             const coachName = document.getElementById("coach_name").value;
             const playersList = document.getElementById("players_list").value;
             const phoneNumber = document.getElementById("phone_number").value;
-            const equipe = document.getElementById("equipe");
+            const equipe = document.getElementById("equipe").value;
             // Créer l'objet de données à envoyer
             const data = {
                 coach_name: coachName,
