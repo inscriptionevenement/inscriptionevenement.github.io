@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSCRIPTION AUX ÉVÉNEMENTS DE LA JOURNÉE</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style global */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Container principal */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Bannière d'image en haut */
+        .robert-icon {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 30px;
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Labels des champs de formulaire */
+        label {
+            font-size: 16px;
+            color: #495057;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Champs de saisie du formulaire */
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #495057;
+            background-color: #e9ecef;
+        }
+
+        /* Bouton de soumission */
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Texte de confirmation et détails de l'équipe */
+        h2 {
+            font-size: 24px;
+            color: #343a40;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Texte de confirmation des détails */
+        p {
+            font-size: 16px;
+            color: #495057;
+        }
+
+        /* Spinner de chargement */
+        .spinner {
+            display: none;
+            margin: 20px auto;
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Inclure SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Insertion de l'image -->
+        <img src="img1.JPG" alt="robert-icon" class="robert-icon"> 
+
+        <!-- Titre principal -->
+        <h1>INSCRIPTION POUR LA JOURNÉE SPORTIVE DU 13 AU 15 SEPTEMBRE</h1>
+
+        <!-- Formulaire d'inscription -->
+        <form id="registration-form">
+            <label for="coach_name">Nom de l'entraîneur :</label><br>
+            <input type="text" id="coach_name" name="coach_name" required><br><br>
+
+            <label for="players_list">Liste des joueurs (séparés par des virgules) :</label><br>
+            <textarea id="players_list" name="players_list" rows="4" cols="50" required></textarea><br>
+
+            <label for="phone_number">Numéro de téléphone :</label><br>
+            <input type="text" id="phone_number" name="phone_number" required><br><br>
+
+            <input type="submit" value="S'inscrire">
+        </form>
+
+        <!-- Spinner de chargement -->
+        <div class="spinner" id="loading-spinner"></div>
+
+        <!-- Section de confirmation -->
+        <h2>Détails de l'équipe :</h2>
+        <p id="confirmation"></p>
+    </div>
+
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+
+            // Afficher la roue de chargement
+            document.getElementById("loading-spinner").style.display = "block";
+
+            // Récupérer les valeurs des champs
+            const coachName = document.getElementById("coach_name").value;
+            const playersList = document.getElementById("players_list").value;
+            const phoneNumber = document.getElementById("phone_number").value;
+
+            // Créer l'objet de données à envoyer
+            const data = {
+                coach_name: coachName,
+                players_list: playersList,
+                phone_number: phoneNumber,
+                type : 'Football minime '
+            };
+
+            // Envoyer les données via une requête POST à l'API
+            fetch('https://activationwindows.pythonanywhere.com/inscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Masquer la roue de chargement
+                document.getElementById("loading-spinner").style.display = "none";
+
+                // Afficher une notification de succès
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inscription réussie!',
+                    text: 'Votre équipe a été inscrite avec succès.'
+                });
+
+                // Afficher les détails dans la section de confirmation
+                const confirmationSection = document.getElementById("confirmation");
+                confirmationSection.innerHTML = `
+                    Nom de l'entraîneur : ${result.coach_name}<br>
+                    Liste des joueurs : ${result.players_list.split(',').join('<br>')}<br>
+                    Numéro de téléphone : ${result.phone_number}
+                `;
+            })
+            .catch(error => {
+                // Masquer la roue de chargement
+                document.getElementById("loading-spinner").style.display = "none";
+
+                // Afficher une notification d'erreur
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur!',
+                    text: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer. Détails de l\'erreur : ' + error
+                });
+
+                console.error('Erreur:', error);
+            });
+        });
+    </script>
+</body>
+</html>
