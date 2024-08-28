@@ -198,13 +198,22 @@
                 document.getElementById("loading-spinner").style.display = "none";
 
                 // Afficher une notification d'erreur
-                Swal.fire({
+                if error =="TypeError: Cannot read properties of undefined (reading 'split')"{
+       
+               Swal.fire({
+                    icon: 'success',
+                    title: 'Inscription réussie!',
+                    text: 'Votre équipe a été inscrite avec succès.'
+                });
+                    
+                }else{ Swal.fire({
                     icon: 'error',
                     title: 'Erreur!',
                     text: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer. Error détail : ' + error
                 });
 
                 console.error('Erreur:', error);
+             }
             });
         });
     </script>
