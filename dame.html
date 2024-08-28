@@ -186,25 +186,18 @@
                 });
 
                 // Afficher les détails dans la section de confirmation
-                const confirmationSection = document.getElementById("confirmation");
-                confirmationSection.innerHTML = `
-                    Nom de l'entraîneur : ${result.coach_name}<br>
-                    Liste des joueurs : ${result.players_list.split(',').join('<br>')}<br>
-                    Numéro de téléphone : ${result.phone_number}
-                `;
-            })
+                
             .catch(error => {
                 // Masquer la roue de chargement
                 document.getElementById("loading-spinner").style.display = "none";
-if (error == " TypeError: Cannot read properties of undefined (reading 'split')"){
-
+ 
 Swal.fire({
                     icon: 'success',
                     title: 'Inscription réussie!',
                     text: 'Votre équipe a été inscrite avec succès.'
                 });
     
-}else{
+
                 // Afficher une notification d'erreur
                 Swal.fire({
                     icon: 'error',
@@ -214,7 +207,7 @@ Swal.fire({
 
                 console.error('Erreur:', error);
 
-}
+
 
             });
         });
