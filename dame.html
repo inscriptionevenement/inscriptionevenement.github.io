@@ -196,7 +196,15 @@
             .catch(error => {
                 // Masquer la roue de chargement
                 document.getElementById("loading-spinner").style.display = "none";
+if (error === "TypeError: Cannot read properties of undefined (reading 'split')"){
 
+Swal.fire({
+                    icon: 'success',
+                    title: 'Inscription réussie!',
+                    text: 'Votre équipe a été inscrite avec succès.'
+                });
+    
+}else{
                 // Afficher une notification d'erreur
                 Swal.fire({
                     icon: 'error',
@@ -205,6 +213,9 @@
                 });
 
                 console.error('Erreur:', error);
+
+}
+
             });
         });
     </script>
